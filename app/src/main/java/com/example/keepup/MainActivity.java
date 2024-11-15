@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.keepup.Model.TaskAdapter;
 import com.example.keepup.Model.TaskManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,30 +48,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskAdapter);
 
 
-        // Floating action button to add a new task
+//--------------------Navigation-----------------------------------------------------
         BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_mytasks:
-                    // Handle "My Tasks" action
-                    Log.d("MainActivity", "My Tasks clicked");
-                    return true;
-
-                case R.id.navigation_create:
-                    // Open the "Add Task" dialog
-                    Log.d("MainActivity", "Create clicked");
-                    openAddTaskDialog();
-                    return true;
-
-                case R.id.nav:
-                    // Handle "Overview" action
-                    Log.d("MainActivity", "Overview clicked");
-                    return true;
-
-                default:
-                    return false;
+            int id = item.getItemId();
+            if (id == R.id.navigation_mytasks) {
+                Log.d("MainActivity", "My Tasks clicked");
+                return true;
+            } else if (id == R.id.navigation_create) {
+                Log.d("MainActivity", "Create clicked");
+                openAddTaskDialog();
+                return true;
+            } else if (id == R.id.navigation_overview) {
+                Log.d("MainActivity", "Overview clicked");
+                return true;
             }
+            return false;
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
