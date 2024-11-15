@@ -1,5 +1,7 @@
 package com.example.keepup;
 
+import com.example.keepup.R;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.keepup.Model.TaskAdapter;
 import com.example.keepup.Model.TaskManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
- //       Log.d("MainActivity", "Initializing TaskManager and TaskAdapter");
+
         taskManager = new TaskManager(); // Initialize TaskManager
 
 
@@ -43,11 +46,33 @@ public class MainActivity extends AppCompatActivity {
 
         taskAdapter = new TaskAdapter(taskManager.getAllTasks()); // Initialize adapter with current tasks
         recyclerView.setAdapter(taskAdapter);
-        Log.d("MainActivity", "TaskAdapter set up successfully");
+
 
         // Floating action button to add a new task
-        FloatingActionButton addButton = findViewById(R.id.addButton);
-        addButton.setOnClickListener(v -> openAddTaskDialog());
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_mytasks:
+                    // Handle "My Tasks" action
+                    Log.d("MainActivity", "My Tasks clicked");
+                    return true;
+
+                case R.id.navigation_create:
+                    // Open the "Add Task" dialog
+                    Log.d("MainActivity", "Create clicked");
+                    openAddTaskDialog();
+                    return true;
+
+                case R.id.nav:
+                    // Handle "Overview" action
+                    Log.d("MainActivity", "Overview clicked");
+                    return true;
+
+                default:
+                    return false;
+            }
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

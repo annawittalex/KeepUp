@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">KeepUp</string>
+    <string name="title_activity_nav_bar">NavBarActivity</string>
+    <string name="title_my_tasks">My Tasks</string>
+    <string name="title_create">Create</string>
+    <string name="title_overview">Overview</string>
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_mytasks"
+        android:icon="@drawable/my_tasks"
+        android:title="@string/title_my_tasks"/>
+
+    <item
+        android:id="@+id/navigation_create"
+        android:icon="@drawable/create_button"
+        android:title="@string/title_create"
+        />
+
+
+    <item
+        android:id="@+id/navigation_overview"
+        android:icon="@drawable/overview"
+        android:title="@string/title_overview"/>
+
+</menu>
