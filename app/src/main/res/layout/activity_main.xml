@@ -27,8 +27,9 @@
         android:id="@+id/recyclerView"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
+
         android:layout_below="@+id/textView"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -41,9 +42,5 @@
         android:src="@drawable/add"
         android:backgroundTint="@color/white"
          />
-
-
-
-
 
 </RelativeLayout>
