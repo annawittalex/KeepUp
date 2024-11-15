@@ -87,13 +87,10 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton("Add", (dialog, which) -> {
                 String taskName = input.getText().toString();
                 if (!taskName.isEmpty()) {
-                    Log.d("MainActivity", "Adding task: " + taskName);
                     taskManager.addTask(taskName);
                     taskAdapter.notifyItemInserted(taskManager.getAllTasks().size() - 1);
                     recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
 
-                } else{
-                    Log.d("MainActivity", "Task name is empty, no task added.");
                 }
             });
 
