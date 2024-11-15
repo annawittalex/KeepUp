@@ -1,11 +1,16 @@
 package com.example.keepup;
 
+import com.example.keepup.Model.Task;
 import com.example.keepup.R;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +24,8 @@ import com.example.keepup.Model.TaskAdapter;
 import com.example.keepup.Model.TaskManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(taskAdapter);
 
 
-//--------------------Navigation-----------------------------------------------------
+//--------------------Navigation-----------------------------------------------------//
         BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -81,21 +88,65 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Add New Task");
 
-            final EditText input = new EditText(this);
-            builder.setView(input);
+            // Create a layout for the dialog
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setPadding(16, 16, 16, 16);
 
+            // Input field for task name
+            final EditText taskNameInput = new EditText(this);
+            taskNameInput.setHint("Task Name");
+            layout.addView(taskNameInput);
+
+            // Button to select deadline
+            final Button selectDeadlineButton = new Button(this);
+            selectDeadlineButton.setText("Select Deadline");
+            layout.addView(selectDeadlineButton);
+
+            // TextView to display the selected deadline
+            final TextView selectedDateText = new TextView(this);
+            selectedDateText.setText("No deadline selected");
+            layout.addView(selectedDateText);
+
+            // Add layout to dialog
+            builder.setView(layout);
+
+
+            // Create a DatePickerDialog for the deadline selection
+            final Calendar calendar = Calendar.getInstance();
+            selectDeadlineButton.setOnClickListener(v -> {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        this,
+                        (view, year, month, dayOfMonth) -> {
+                            calendar.set(year, month, dayOfMonth);
+                            selectedDateText.setText("Deadline: " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                        },
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                );
+                datePickerDialog.show();
+            });
+
+            // Positive button to add the task
             builder.setPositiveButton("Add", (dialog, which) -> {
-                String taskName = input.getText().toString();
+                String taskName = taskNameInput.getText().toString();
+                Date deadline = calendar.getTime();
                 if (!taskName.isEmpty()) {
-                    taskManager.addTask(taskName);
+
+                    Task task = new Task();
+                    task.setTaskName(taskName);
+                    task.setDeadline(deadline);
+                    taskManager.addTask(task);
                     taskAdapter.notifyItemInserted(taskManager.getAllTasks().size() - 1);
                     recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
-
                 }
             });
 
+            // Negative button to cancel
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
+            // Show the dialog
             builder.show();
         }
 

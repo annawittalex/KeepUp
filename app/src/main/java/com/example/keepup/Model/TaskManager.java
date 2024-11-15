@@ -13,15 +13,14 @@ public class TaskManager {
 
 
     // Add a new task
-    public void addTask(String task) {
+    public void addTask(Task task) {
 
-        Log.d("TaskManager", "Adding task: " + task);
-        Task newTask = new Task();
-        newTask.setId(nextId++);
-        newTask.setTaskName(task);
-        newTask.setStatus(0); // Default status (e.g., incomplete)
-        taskList.add(newTask);
-        Log.d("TaskManager", "Task added. Total tasks now: " + taskList.size());
+//        Task newTask = new Task();
+        task.setId(nextId++);
+//        newTask.setTaskName(task);
+        task.setStatus(0); // Default status (e.g., incomplete)
+        taskList.add(task);
+
 
     }
 

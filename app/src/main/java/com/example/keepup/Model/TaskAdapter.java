@@ -36,7 +36,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = tasks.get(position);
-        Log.d("TaskAdapter", "onBindViewHolder called for position: " + position + ", task: " + task.getTaskName());
     // Get the task for this position
         holder.bind(task); // Bind the task to the view holder
     }
@@ -51,20 +50,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
         private TextView taskNameTextView;
         private CheckBox taskCheckBox;
+        private TextView taskDeadlineTextView;
 
         public TaskViewHolder(View itemView) {
             super(itemView);
             taskNameTextView = itemView.findViewById(R.id.task_name);  // The TextView for task name
             taskCheckBox = itemView.findViewById(R.id.checkbox); // The CheckBox for task completion
+            taskDeadlineTextView = itemView.findViewById(R.id.task_deadline); // The TextView for deadline
         }
 
         // Bind the task data to the views
         public void bind(Task task) {
-            Log.d("TaskAdapter", "Binding task: " + task.getTaskName());
+
             taskNameTextView.setText(task.getTaskName()); // Set task name
+            taskDeadlineTextView.setText(task.getDeadline() != null ?
+                    android.text.format.DateFormat.format("MMM dd, yyyy", task.getDeadline()).toString() : "No Deadline"); // Format deadline
             taskCheckBox.setChecked(task.getStatus() == 1); // If status is 1 (completed), set checkbox as checked
             taskCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                Log.d("TaskAdapter", "Task status changed: " + isChecked);
+
                 // Update task status when checkbox is toggled
                 task.setStatus(isChecked ? 1 : 0);
             });
