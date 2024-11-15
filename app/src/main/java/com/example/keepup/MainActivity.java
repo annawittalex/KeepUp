@@ -54,14 +54,14 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.navigation_mytasks) {
-                Log.d("MainActivity", "My Tasks clicked");
+
                 return true;
             } else if (id == R.id.navigation_create) {
-                Log.d("MainActivity", "Create clicked");
+
                 openAddTaskDialog();
                 return true;
             } else if (id == R.id.navigation_overview) {
-                Log.d("MainActivity", "Overview clicked");
+                // switch screen from Main Activity to OverviewActivity
                 return true;
             }
             return false;
