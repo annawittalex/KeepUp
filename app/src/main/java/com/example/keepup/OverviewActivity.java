@@ -28,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 // OverviewActivity.java
 public class OverviewActivity extends AppCompatActivity {
@@ -58,7 +59,20 @@ public class OverviewActivity extends AppCompatActivity {
             taskList = bundle.getParcelableArrayList("tasks");
 
             if (taskList != null) {
-                taskAdapter = new TaskAdapter(taskList);
+                taskAdapter = new TaskAdapter(
+                        taskList.stream()
+                                .filter(task -> {
+                                    Date deadline = task.getDeadline();
+                                    if (deadline != null) {
+                                        Calendar today = Calendar.getInstance();
+                                        Calendar sevenDaysLater = Calendar.getInstance();
+                                        sevenDaysLater.add(Calendar.DATE, 7);
+                                        return !deadline.before(today.getTime()) && !deadline.after(sevenDaysLater.getTime());
+                                    }
+                                    return false;
+                                })
+                                .collect(Collectors.toList())
+                );
                 taskRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set layout manager
                 taskRecyclerView.setAdapter(taskAdapter); // Set the adapter to RecyclerView
             } else {
