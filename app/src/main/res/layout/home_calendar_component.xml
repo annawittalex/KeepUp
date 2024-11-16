@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    android:padding="8dp">
+
+    <!-- Calendar Icon -->
+    <ImageView
+        android:id="@+id/calendarIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/home_calendar_icon"
+      />
+
+    <!-- Date Text -->
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="04 Nov"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:padding="4dp" />
+</LinearLayout>

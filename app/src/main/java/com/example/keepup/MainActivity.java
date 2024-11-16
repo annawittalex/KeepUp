@@ -5,6 +5,7 @@ import com.example.keepup.R;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.navigation_overview) {
                 // switch screen from Main Activity to OverviewActivity
+                Intent intent = new Intent(MainActivity.this, OverviewActivity.class);
+                startActivity(intent);
                 return true;
             }
             return false;
