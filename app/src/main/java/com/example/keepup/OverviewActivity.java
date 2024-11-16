@@ -36,6 +36,8 @@ public class OverviewActivity extends AppCompatActivity {
     private TaskAdapter taskAdapter;
     private ArrayList<Task> taskList;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

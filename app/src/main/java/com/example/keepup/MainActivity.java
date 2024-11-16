@@ -156,4 +156,61 @@ public class MainActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    public void openEditTaskDialog(Task task, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edit Task");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(16, 16, 16, 16);
+
+        final EditText taskNameInput = new EditText(this);
+        taskNameInput.setText(task.getTaskName());
+        layout.addView(taskNameInput);
+
+        final Button selectDeadlineButton = new Button(this);
+        selectDeadlineButton.setText("Select Deadline");
+        layout.addView(selectDeadlineButton);
+
+        final TextView selectedDateText = new TextView(this);
+        if (task.getDeadline() != null) {
+            selectedDateText.setText(android.text.format.DateFormat.format("MMM dd, yyyy", task.getDeadline()));
+        } else {
+            selectedDateText.setText("No deadline selected");
+        }
+        layout.addView(selectedDateText);
+
+        builder.setView(layout);
+
+        final Calendar calendar = Calendar.getInstance();
+        selectDeadlineButton.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    this,
+                    (view, year, month, dayOfMonth) -> {
+                        calendar.set(year, month, dayOfMonth);
+                        selectedDateText.setText("Deadline: " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+            datePickerDialog.show();
+        });
+
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String updatedTaskName = taskNameInput.getText().toString();
+            Date updatedDeadline = calendar.getTime();
+            if (!updatedTaskName.isEmpty()) {
+                task.setTaskName(updatedTaskName);
+                task.setDeadline(updatedDeadline);
+                taskAdapter.notifyItemChanged(position); // Notify adapter about the update
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
 }
