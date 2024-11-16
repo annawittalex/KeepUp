@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -50,11 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Fetch data: First check the Bundle for tasks, else use TaskManager
         displayTasksFromIntentOrTaskManager();
-        //handle navigation
         NavigateTo();
 
     }
-
     public void NavigateTo(){
         BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -63,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.navigation_create) {
                 openAddTaskDialog();
-                return true;
             } else if (id == R.id.navigation_overview) {
                 // Create the Intent to navigate to OverviewActivity
                 Intent intent = new Intent(MainActivity.this, OverviewActivity.class);
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "No tasks available", Toast.LENGTH_SHORT).show();
                 }
-                return true;
             }
             return false;
         });
@@ -150,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
-                // taskAdapter.notifyItemInserted(taskManager.getAllTasks().size() - 1);
                  taskAdapter.notifyItemInserted(taskList.size() - 1);
                 recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
             }

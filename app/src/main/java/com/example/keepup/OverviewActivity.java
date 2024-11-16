@@ -74,7 +74,6 @@ public class OverviewActivity extends AppCompatActivity {
             welcomeText.setText("Hallo!\nHere are some tasks to do!");
         }
     }
-
     public void showDynamicDate() {
         TextView dateText = findViewById(R.id.dateText);
         dateText.setText(Calendar.getInstance().getTime().toString().split(" ")[1] + " " +
@@ -85,9 +84,10 @@ public class OverviewActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.navBar);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.navigation_mytasks) {
+
+            if (id == R.id.navigation_create) {
                 return true;
-            } else if (id == R.id.navigation_create) {
+            } else if (id == R.id.navigation_mytasks) {
                 Intent intent = new Intent(OverviewActivity.this, MainActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("tasks", taskList);
