@@ -73,8 +73,8 @@ public class OverviewActivity extends AppCompatActivity {
                                 })
                                 .collect(Collectors.toList())
                 );
-                taskRecyclerView.setLayoutManager(new LinearLayoutManager(this)); // Set layout manager
-                taskRecyclerView.setAdapter(taskAdapter); // Set the adapter to RecyclerView
+                taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                taskRecyclerView.setAdapter(taskAdapter);
             } else {
                 Toast.makeText(this, "No tasks available", Toast.LENGTH_SHORT).show();
             }
@@ -171,8 +171,25 @@ public class OverviewActivity extends AppCompatActivity {
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
+                //update the adapter with the new element
+                taskAdapter = new TaskAdapter(
+                        taskList.stream()
+                                .filter(el -> {
+                                    Date lastDay = el.getDeadline();
+                                    if (lastDay != null) {
+                                        Calendar today = Calendar.getInstance();
+                                        Calendar sevenDaysLater = Calendar.getInstance();
+                                        sevenDaysLater.add(Calendar.DATE, 7);
+                                        return !lastDay.before(today.getTime()) && !lastDay.after(sevenDaysLater.getTime());
+                                    }
+                                    return false;
+                                })
+                                .collect(Collectors.toList())
+                );
+                taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                taskRecyclerView.setAdapter(taskAdapter);
+
                 taskAdapter.notifyItemInserted(taskList.size() - 1);
-//                recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
             }
         });
 

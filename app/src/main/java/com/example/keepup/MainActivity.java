@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.navigation_create) {
                 openAddTaskDialog();
+                return  true;
             } else if (id == R.id.navigation_overview) {
                 // Create the Intent to navigate to OverviewActivity
                 Intent intent = new Intent(MainActivity.this, OverviewActivity.class);
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "No tasks available", Toast.LENGTH_SHORT).show();
                 }
+                return true;
             }
             return false;
         });
