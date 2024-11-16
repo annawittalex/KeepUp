@@ -6,7 +6,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OverviewActivity">
+    tools:context=".OverviewActivity"
+    tools:ignore="ExtraText">
 
     <!-- Calendar Component -->
 
@@ -22,6 +23,17 @@
         app:layout_constraintHorizontal_bias="0.342"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/myCalendarComponent"
+        layout="@layout/home_calendar_component"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="-10dp"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintStart_toStartOf="@id/textView2"
+        />
+
 
     <TextView
         android:id="@+id/taskCompletionText"
@@ -51,51 +63,17 @@
         app:layout_constraintStart_toStartOf="@id/taskCompletionText"
         app:layout_constraintTop_toBottomOf="@id/taskCompletionText" />
 
-    <include
-        android:id="@+id/myCalendarComponent"
-        layout="@layout/home_calendar_component"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/taskRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginLeft="-10dp"
-        app:layout_constraintTop_toBottomOf="@id/textView2"
-        app:layout_constraintStart_toStartOf="@id/textView2"
-     />
-
-    <!-- Analyticcs-->
-
-
-    <!--Description Text (in the next 7 days)-->
-
-    <include
-        android:id="@+id/myTaskItemComponent"
-        layout="@layout/task_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/taskDueText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <include
-        android:id="@+id/myTaskItemComponent2"
-        layout="@layout/task_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/myTaskItemComponent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <include
-        android:id="@+id/myTaskItemComponen3"
-        layout="@layout/task_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/myTaskItemComponent2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navBar"
