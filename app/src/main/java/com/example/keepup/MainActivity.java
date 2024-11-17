@@ -6,10 +6,15 @@ import com.example.keepup.R;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -99,9 +104,18 @@ public class MainActivity extends AppCompatActivity {
     private void openAddTaskDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
+
+        // Create a custom view for the dialog content
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(16, 16, 16, 16);
+        layout.setPadding(24, 24, 24, 24);
+
+
+        // Set minimum width and height for bigger dialog
+        layout.setMinimumWidth(getResources().getDisplayMetrics().widthPixels - 64);
+        layout.setMinimumHeight(getResources().getDisplayMetrics().heightPixels / 4);
+
+
         final EditText taskNameInput = new EditText(this);
         taskNameInput.setHint("Task Name");
         layout.addView(taskNameInput);
@@ -112,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         selectedDateText.setText("No deadline selected");
         layout.addView(selectedDateText);
         builder.setView(layout);
+
         final Calendar calendar = Calendar.getInstance();
         selectDeadlineButton.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -161,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
         }
         layout.addView(selectedDateText);
         builder.setView(layout);
+
+
+
         final Calendar calendar = Calendar.getInstance();
         selectDeadlineButton.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(

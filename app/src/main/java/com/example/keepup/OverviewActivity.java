@@ -51,6 +51,8 @@ public class OverviewActivity extends AppCompatActivity {
         displayTasksFromIntent();
     }
 
+
+
     public void displayTasksFromIntent() {
         taskRecyclerView = findViewById(R.id.taskRecyclerView);
         Bundle bundle = getIntent().getExtras();
@@ -135,9 +137,15 @@ public class OverviewActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
 
+        // Create a custom view for the dialog content
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(16, 16, 16, 16);
+        layout.setPadding(24, 24, 24, 24);
+
+
+        // Set minimum width and height for bigger dialog
+        layout.setMinimumWidth(getResources().getDisplayMetrics().widthPixels - 64);
+        layout.setMinimumHeight(getResources().getDisplayMetrics().heightPixels / 4);
 
         final EditText taskNameInput = new EditText(this);
         taskNameInput.setHint("Task Name");
