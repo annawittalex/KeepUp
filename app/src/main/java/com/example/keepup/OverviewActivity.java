@@ -63,7 +63,7 @@ public class OverviewActivity extends AppCompatActivity {
             progressText.setText(String.format("Progress: %.1f%% (%d/%d tasks completed)",
                     percentage, completedTasks, totalTasks));
         } else {
-            progressText.setText("Progress: 0% (0/0 tasks completed)");
+            progressText.setText("Tasks completed: 0% (0/0)");
         }
     }
 
