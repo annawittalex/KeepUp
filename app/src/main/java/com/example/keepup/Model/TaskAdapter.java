@@ -20,12 +20,15 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> tasks;
+    private OverviewActivity activity;
 
     // Constructor to receive the list of tasks
     public TaskAdapter(List<Task> tasks) {
         Log.d("TaskAdapter", "Adapter created with tasks size: " + tasks.size());
         this.tasks = tasks;
-    }
+
+
+        }
     public void updateTasks(List<Task> newTasks) {
         tasks.clear(); // Clear the current list
         tasks.addAll(newTasks); // Add the new filtered tasks
@@ -75,6 +78,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             // Checkbox listener
             taskCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 task.setStatus(isChecked ? 1 : 0);
+                if (itemView.getContext() instanceof OverviewActivity) {
+                    ((OverviewActivity) itemView.getContext()).updateProgress();
+                }
             });
 
             // Edit button listener

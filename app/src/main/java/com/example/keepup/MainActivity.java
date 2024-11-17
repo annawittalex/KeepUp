@@ -139,6 +139,14 @@ public class MainActivity extends AppCompatActivity {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
+            // Set minimum date to today not to be able to chose yesterday
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
+            datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
+
             datePickerDialog.show();
         });
         builder.setPositiveButton("Add", (dialog, which) -> {
@@ -191,6 +199,14 @@ public class MainActivity extends AppCompatActivity {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
+            // Set minimum date to today not to be able to chose yesterday
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
+            datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
+
             datePickerDialog.show();
         });
         builder.setPositiveButton("Update", (dialog, which) -> {

@@ -36,7 +36,7 @@ public class OverviewActivity extends AppCompatActivity {
     private RecyclerView taskRecyclerView;
     private TaskAdapter taskAdapter;
     private ArrayList<Task> taskList;
-
+    private TextView progressText;
 
 
     @Override
@@ -45,12 +45,27 @@ public class OverviewActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_overview);
 
+        progressText = findViewById(R.id.taskCompletionText);
         showDynamicGreeting();
         showDynamicDate();
         navigateTo();
         displayTasksFromIntent();
     }
 
+    public void updateProgress() {
+        if (taskList != null && !taskList.isEmpty()) {
+            int totalTasks = taskList.size();
+            int completedTasks = (int) taskList.stream()
+                    .filter(task -> task.getStatus() == 1) // Assuming 1 means completed
+                    .count();
+
+            double percentage = (completedTasks * 100.0) / totalTasks;
+            progressText.setText(String.format("Progress: %.1f%% (%d/%d tasks completed)",
+                    percentage, completedTasks, totalTasks));
+        } else {
+            progressText.setText("Progress: 0% (0/0 tasks completed)");
+        }
+    }
 
 
     public void displayTasksFromIntent() {
@@ -83,6 +98,7 @@ public class OverviewActivity extends AppCompatActivity {
                 );
                 taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 taskRecyclerView.setAdapter(taskAdapter);
+                updateProgress();
             } else {
                 Toast.makeText(this, "No tasks available", Toast.LENGTH_SHORT).show();
             }
@@ -90,6 +106,12 @@ public class OverviewActivity extends AppCompatActivity {
             Toast.makeText(this, "No tasks found", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void onTaskStatusChanged(Task task, boolean isCompleted) {
+        task.setStatus(isCompleted ? 1 : 0);
+        updateProgress();
+    }
+
 
     public void showDynamicGreeting() {
         TextView welcomeText = findViewById(R.id.textView2);
@@ -173,6 +195,14 @@ public class OverviewActivity extends AppCompatActivity {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
+            // Set minimum date to today not to be able to chose yesterday
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
+            datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
+
             datePickerDialog.show();
         });
 
@@ -259,6 +289,14 @@ public class OverviewActivity extends AppCompatActivity {
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
+            // Set minimum date to today not to be able to chose yesterday
+            Calendar today = Calendar.getInstance();
+            today.set(Calendar.HOUR_OF_DAY, 0);
+            today.set(Calendar.MINUTE, 0);
+            today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
+            datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
+
             datePickerDialog.show();
         });
 
