@@ -178,7 +178,6 @@ public class OverviewActivity extends AppCompatActivity {
                 task.setDeadline(deadline);
                 taskList.add(task);
 
-                // Filter tasks to show only those with deadlines in the next 7 days
                 ArrayList<Task> filteredTasks = (ArrayList<Task>) taskList.stream()
                         .filter(t -> {
                             Date taskDeadline = t.getDeadline();
@@ -209,6 +208,87 @@ public class OverviewActivity extends AppCompatActivity {
             }
         });
 
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+    public void openEditTaskDialog(Task task, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edit Task");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(16, 16, 16, 16);
+
+        final EditText taskNameInput = new EditText(this);
+        taskNameInput.setText(task.getTaskName());
+        layout.addView(taskNameInput);
+
+        final Button selectDeadlineButton = new Button(this);
+        selectDeadlineButton.setText("Select Deadline");
+        layout.addView(selectDeadlineButton);
+
+        final TextView selectedDateText = new TextView(this);
+        if (task.getDeadline() != null) {
+            selectedDateText.setText(android.text.format.DateFormat.format("MMM dd, yyyy", task.getDeadline()));
+        } else {
+            selectedDateText.setText("No deadline selected");
+        }
+        layout.addView(selectedDateText);
+
+        builder.setView(layout);
+
+        final Calendar calendar = Calendar.getInstance();
+        selectDeadlineButton.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    this,
+                    (view, year, month, dayOfMonth) -> {
+                        calendar.set(year, month, dayOfMonth);
+                        selectedDateText.setText("Deadline: " + (month + 1) + "/" + dayOfMonth + "/" + year);
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+            datePickerDialog.show();
+        });
+
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String updatedTaskName = taskNameInput.getText().toString();
+            Date updatedDeadline = calendar.getTime();
+            if (!updatedTaskName.isEmpty()) {
+                task.setTaskName(updatedTaskName);
+                task.setDeadline(updatedDeadline);
+                ArrayList<Task> filteredTasks = (ArrayList<Task>) taskList.stream()
+                        .filter(t -> {
+                            Date taskDeadline = t.getDeadline();
+                            if (taskDeadline != null) {
+                                Calendar todayStart = Calendar.getInstance();
+                                todayStart.set(Calendar.HOUR_OF_DAY, 0);
+                                todayStart.set(Calendar.MINUTE, 0);
+                                todayStart.set(Calendar.SECOND, 0);
+                                todayStart.set(Calendar.MILLISECOND, 0);
+
+                                Calendar sevenDaysLater = Calendar.getInstance();
+                                sevenDaysLater.add(Calendar.DATE, 7);
+                                sevenDaysLater.set(Calendar.HOUR_OF_DAY, 23);
+                                sevenDaysLater.set(Calendar.MINUTE, 59);
+                                sevenDaysLater.set(Calendar.SECOND, 59);
+                                sevenDaysLater.set(Calendar.MILLISECOND, 999);
+
+                                return !taskDeadline.before(todayStart.getTime()) &&
+                                        !taskDeadline.after(sevenDaysLater.getTime());
+                            }
+                            return false;
+                        })
+                        .collect(Collectors.toList());
+                taskAdapter.updateTasks(filteredTasks);
+            }
+            //update the tasklist with the element
+            taskList.get(position).setTaskName(taskNameInput.getText().toString());
+            taskList.get(position).setDeadline(updatedDeadline);
+        });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 

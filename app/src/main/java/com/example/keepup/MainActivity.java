@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
     }
-    // Fetch tasks either from Intent or TaskManager
     public void displayTasksFromIntentOrTaskManager() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -100,25 +99,19 @@ public class MainActivity extends AppCompatActivity {
     private void openAddTaskDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
-
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(16, 16, 16, 16);
-
         final EditText taskNameInput = new EditText(this);
         taskNameInput.setHint("Task Name");
         layout.addView(taskNameInput);
-
         final Button selectDeadlineButton = new Button(this);
         selectDeadlineButton.setText("Select Deadline");
         layout.addView(selectDeadlineButton);
-
         final TextView selectedDateText = new TextView(this);
         selectedDateText.setText("No deadline selected");
         layout.addView(selectedDateText);
-
         builder.setView(layout);
-
         final Calendar calendar = Calendar.getInstance();
         selectDeadlineButton.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -133,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             );
             datePickerDialog.show();
         });
-
         builder.setPositiveButton("Add", (dialog, which) -> {
             String taskName = taskNameInput.getText().toString();
             Date deadline = calendar.getTime();
@@ -146,27 +138,21 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
             }
         });
-
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
-
     public void openEditTaskDialog(Task task, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Task");
-
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(16, 16, 16, 16);
-
         final EditText taskNameInput = new EditText(this);
         taskNameInput.setText(task.getTaskName());
         layout.addView(taskNameInput);
-
         final Button selectDeadlineButton = new Button(this);
         selectDeadlineButton.setText("Select Deadline");
         layout.addView(selectDeadlineButton);
-
         final TextView selectedDateText = new TextView(this);
         if (task.getDeadline() != null) {
             selectedDateText.setText(android.text.format.DateFormat.format("MMM dd, yyyy", task.getDeadline()));
@@ -174,9 +160,7 @@ public class MainActivity extends AppCompatActivity {
             selectedDateText.setText("No deadline selected");
         }
         layout.addView(selectedDateText);
-
         builder.setView(layout);
-
         final Calendar calendar = Calendar.getInstance();
         selectDeadlineButton.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -191,17 +175,14 @@ public class MainActivity extends AppCompatActivity {
             );
             datePickerDialog.show();
         });
-
         builder.setPositiveButton("Update", (dialog, which) -> {
             String updatedTaskName = taskNameInput.getText().toString();
             Date updatedDeadline = calendar.getTime();
             if (!updatedTaskName.isEmpty()) {
                 task.setTaskName(updatedTaskName);
                 task.setDeadline(updatedDeadline);
-                taskAdapter.notifyItemChanged(position); // Notify adapter about the update
-
+                taskAdapter.notifyItemChanged(position);
             }
-            //update the tasklist with the element
             taskList.get(position).setTaskName(taskNameInput.getText().toString());
             taskList.get(position).setDeadline(updatedDeadline);
         });
