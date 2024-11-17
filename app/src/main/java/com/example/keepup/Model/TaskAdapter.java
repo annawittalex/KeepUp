@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,7 +54,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         private TextView taskNameTextView;
         private CheckBox taskCheckBox;
         private TextView taskDeadlineTextView;
-        private Button editButton;
+        private ImageButton editButton;
 
         public TaskViewHolder(View itemView) {
             super(itemView);
