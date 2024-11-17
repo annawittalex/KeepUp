@@ -53,21 +53,27 @@ public class OverviewActivity extends AppCompatActivity {
 
     public void displayTasksFromIntent() {
         taskRecyclerView = findViewById(R.id.taskRecyclerView);
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             taskList = bundle.getParcelableArrayList("tasks");
-
             if (taskList != null) {
                 taskAdapter = new TaskAdapter(
                         taskList.stream()
                                 .filter(task -> {
                                     Date deadline = task.getDeadline();
                                     if (deadline != null) {
-                                        Calendar today = Calendar.getInstance();
+                                        Calendar todayStart = Calendar.getInstance();
+                                        todayStart.set(Calendar.HOUR_OF_DAY, 0);
+                                        todayStart.set(Calendar.MINUTE, 0);
+                                        todayStart.set(Calendar.SECOND, 0);
+                                        todayStart.set(Calendar.MILLISECOND, 0);
                                         Calendar sevenDaysLater = Calendar.getInstance();
                                         sevenDaysLater.add(Calendar.DATE, 7);
-                                        return !deadline.before(today.getTime()) && !deadline.after(sevenDaysLater.getTime());
+                                        sevenDaysLater.set(Calendar.HOUR_OF_DAY, 23);
+                                        sevenDaysLater.set(Calendar.MINUTE, 59);
+                                        sevenDaysLater.set(Calendar.SECOND, 59);
+                                        sevenDaysLater.set(Calendar.MILLISECOND, 999);
+                                        return !deadline.before(todayStart.getTime()) && !deadline.after(sevenDaysLater.getTime());
                                     }
                                     return false;
                                 })
@@ -126,7 +132,6 @@ public class OverviewActivity extends AppCompatActivity {
     }
 
     private void openAddTaskDialog() {
-        // Example method to open a dialog for entering a new task (you can create your own layout for this)
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
 
@@ -171,16 +176,23 @@ public class OverviewActivity extends AppCompatActivity {
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
-                //update the adapter with the new element
                 taskAdapter = new TaskAdapter(
                         taskList.stream()
                                 .filter(el -> {
                                     Date lastDay = el.getDeadline();
-                                    if (lastDay != null) {
-                                        Calendar today = Calendar.getInstance();
+                                    if (deadline != null) {
+                                        Calendar todayStart = Calendar.getInstance();
+                                        todayStart.set(Calendar.HOUR_OF_DAY, 0);
+                                        todayStart.set(Calendar.MINUTE, 0);
+                                        todayStart.set(Calendar.SECOND, 0);
+                                        todayStart.set(Calendar.MILLISECOND, 0);
                                         Calendar sevenDaysLater = Calendar.getInstance();
                                         sevenDaysLater.add(Calendar.DATE, 7);
-                                        return !lastDay.before(today.getTime()) && !lastDay.after(sevenDaysLater.getTime());
+                                        sevenDaysLater.set(Calendar.HOUR_OF_DAY, 23);
+                                        sevenDaysLater.set(Calendar.MINUTE, 59);
+                                        sevenDaysLater.set(Calendar.SECOND, 59);
+                                        sevenDaysLater.set(Calendar.MILLISECOND, 999);
+                                        return !deadline.before(todayStart.getTime()) && !deadline.after(sevenDaysLater.getTime());
                                     }
                                     return false;
                                 })

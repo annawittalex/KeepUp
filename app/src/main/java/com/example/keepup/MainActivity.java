@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Fetch data: First check the Bundle for tasks, else use TaskManager
         displayTasksFromIntentOrTaskManager();
         NavigateTo();
 
@@ -207,7 +206,11 @@ public class MainActivity extends AppCompatActivity {
                 task.setTaskName(updatedTaskName);
                 task.setDeadline(updatedDeadline);
                 taskAdapter.notifyItemChanged(position); // Notify adapter about the update
+
             }
+            //update the tasklist with the element
+            taskList.get(position).setTaskName(taskNameInput.getText().toString());
+            taskList.get(position).setDeadline(updatedDeadline);
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
