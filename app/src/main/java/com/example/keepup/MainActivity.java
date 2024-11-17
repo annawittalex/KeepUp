@@ -63,16 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 openAddTaskDialog();
                 return  true;
             } else if (id == R.id.navigation_overview) {
-                // Create the Intent to navigate to OverviewActivity
                 Intent intent = new Intent(MainActivity.this, OverviewActivity.class);
-
-                // Ensure taskList is not null
                 if (taskList != null) {
-                    // Create a Bundle and pass the task list
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("tasks", taskList);
                     intent.putExtras(bundle);
-
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "No tasks available", Toast.LENGTH_SHORT).show();
@@ -103,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAddTaskDialog() {
-        // Example method to open a dialog for entering a new task (you can create your own layout for this)
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
 
@@ -154,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-
         builder.show();
     }
 

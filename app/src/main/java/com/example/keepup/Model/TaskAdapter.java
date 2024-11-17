@@ -24,6 +24,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Log.d("TaskAdapter", "Adapter created with tasks size: " + tasks.size());
         this.tasks = tasks;
     }
+    public void updateTasks(List<Task> newTasks) {
+        tasks.clear(); // Clear the current list
+        tasks.addAll(newTasks); // Add the new filtered tasks
+        notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
+    }
 
     // Create a new view holder to represent each task in the list
     @NonNull

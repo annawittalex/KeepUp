@@ -171,39 +171,44 @@ public class OverviewActivity extends AppCompatActivity {
         builder.setPositiveButton("Add", (dialog, which) -> {
             String taskName = taskNameInput.getText().toString();
             Date deadline = calendar.getTime();
+
             if (!taskName.isEmpty()) {
                 Task task = new Task();
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
-                taskAdapter = new TaskAdapter(
-                        taskList.stream()
-                                .filter(el -> {
-                                    Date lastDay = el.getDeadline();
-                                    if (deadline != null) {
-                                        Calendar todayStart = Calendar.getInstance();
-                                        todayStart.set(Calendar.HOUR_OF_DAY, 0);
-                                        todayStart.set(Calendar.MINUTE, 0);
-                                        todayStart.set(Calendar.SECOND, 0);
-                                        todayStart.set(Calendar.MILLISECOND, 0);
-                                        Calendar sevenDaysLater = Calendar.getInstance();
-                                        sevenDaysLater.add(Calendar.DATE, 7);
-                                        sevenDaysLater.set(Calendar.HOUR_OF_DAY, 23);
-                                        sevenDaysLater.set(Calendar.MINUTE, 59);
-                                        sevenDaysLater.set(Calendar.SECOND, 59);
-                                        sevenDaysLater.set(Calendar.MILLISECOND, 999);
-                                        return !deadline.before(todayStart.getTime()) && !deadline.after(sevenDaysLater.getTime());
-                                    }
-                                    return false;
-                                })
-                                .collect(Collectors.toList())
-                );
-                taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                taskRecyclerView.setAdapter(taskAdapter);
 
-                taskAdapter.notifyItemInserted(taskList.size() - 1);
+                // Filter tasks to show only those with deadlines in the next 7 days
+                ArrayList<Task> filteredTasks = (ArrayList<Task>) taskList.stream()
+                        .filter(t -> {
+                            Date taskDeadline = t.getDeadline();
+                            if (taskDeadline != null) {
+                                Calendar todayStart = Calendar.getInstance();
+                                todayStart.set(Calendar.HOUR_OF_DAY, 0);
+                                todayStart.set(Calendar.MINUTE, 0);
+                                todayStart.set(Calendar.SECOND, 0);
+                                todayStart.set(Calendar.MILLISECOND, 0);
+
+                                Calendar sevenDaysLater = Calendar.getInstance();
+                                sevenDaysLater.add(Calendar.DATE, 7);
+                                sevenDaysLater.set(Calendar.HOUR_OF_DAY, 23);
+                                sevenDaysLater.set(Calendar.MINUTE, 59);
+                                sevenDaysLater.set(Calendar.SECOND, 59);
+                                sevenDaysLater.set(Calendar.MILLISECOND, 999);
+
+                                return !taskDeadline.before(todayStart.getTime()) &&
+                                        !taskDeadline.after(sevenDaysLater.getTime());
+                            }
+                            return false;
+                        })
+                        .collect(Collectors.toList());
+
+                    taskAdapter.updateTasks(filteredTasks);
+            } else {
+                Toast.makeText(this, "Task name cannot be empty!", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
