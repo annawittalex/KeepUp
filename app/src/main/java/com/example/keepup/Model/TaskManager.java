@@ -1,6 +1,5 @@
 package com.example.keepup.Model;
 
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +14,7 @@ public class TaskManager {
     // Add a new task
     public void addTask(Task task) {
 
-//        Task newTask = new Task();
         task.setId(nextId++);
-//        newTask.setTaskName(task);
         task.setStatus(0); // Default status (e.g., incomplete)
         taskList.add(task);
 
@@ -36,8 +33,6 @@ public class TaskManager {
 
     // Get all tasks
     public List<Task> getAllTasks() {
-        Log.d("TaskManager", "getAllTasks called. Task list size: " + taskList.size());
-//        return new ArrayList<>(taskList); // Return a copy to prevent external modification
         return taskList;
     }
 

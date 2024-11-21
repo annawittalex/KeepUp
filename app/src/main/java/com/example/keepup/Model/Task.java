@@ -3,15 +3,8 @@ package com.example.keepup.Model;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.util.Date;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.Date;
 
 @SuppressLint("ParcelCreator")
 public class Task implements Parcelable {

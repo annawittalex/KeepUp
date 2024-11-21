@@ -4,7 +4,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,7 +23,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     // Constructor to receive the list of tasks
     public TaskAdapter(List<Task> tasks) {
-        Log.d("TaskAdapter", "Adapter created with tasks size: " + tasks.size());
         this.tasks = tasks;
 
 
