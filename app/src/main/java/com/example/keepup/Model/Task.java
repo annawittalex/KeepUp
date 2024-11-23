@@ -15,13 +15,12 @@ public class Task implements Parcelable {
     private int status;
 
     public Task() {
-        // Default constructor
     }
 
     protected Task(Parcel in) {
         id = in.readInt();
         taskName = in.readString();
-        deadline = new Date(in.readLong());  // Date is stored as a long (timestamp)
+        deadline = new Date(in.readLong());
         status = in.readInt();
     }
 
@@ -78,7 +77,7 @@ public class Task implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(taskName);
-        dest.writeLong(deadline != null ? deadline.getTime() : -1);  // -1 if deadline is null
+        dest.writeLong(deadline != null ? deadline.getTime() : -1);
         dest.writeInt(status);
     }
 }

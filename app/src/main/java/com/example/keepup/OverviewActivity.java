@@ -50,7 +50,7 @@ public class OverviewActivity extends AppCompatActivity {
         if (taskList != null && !taskList.isEmpty()) {
             int totalTasks = taskList.size();
             int completedTasks = (int) taskList.stream()
-                    .filter(task -> task.getStatus() == 1) // Assuming 1 means completed
+                    .filter(task -> task.getStatus() == 1)
                     .count();
 
             double percentage = (completedTasks * 100.0) / totalTasks;
@@ -101,10 +101,6 @@ public class OverviewActivity extends AppCompatActivity {
         }
     }
 
-    public void onTaskStatusChanged(Task task, boolean isCompleted) {
-        task.setStatus(isCompleted ? 1 : 0);
-        updateProgress();
-    }
 
 
     public void showDynamicGreeting() {
@@ -153,13 +149,11 @@ public class OverviewActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
 
-        // Create a custom view for the dialog content
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(24, 24, 24, 24);
 
 
-        // Set minimum width and height for bigger dialog
         layout.setMinimumWidth(getResources().getDisplayMetrics().widthPixels - 64);
         layout.setMinimumHeight(getResources().getDisplayMetrics().heightPixels / 4);
 
@@ -325,7 +319,6 @@ public class OverviewActivity extends AppCompatActivity {
                         .collect(Collectors.toList());
                 taskAdapter.updateTasks(filteredTasks);
             }
-            //update the tasklist with the element
             taskList.get(position).setTaskName(taskNameInput.getText().toString());
             taskList.get(position).setDeadline(updatedDeadline);
         });

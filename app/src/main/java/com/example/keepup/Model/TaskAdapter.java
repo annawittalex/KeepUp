@@ -1,6 +1,5 @@
 package com.example.keepup.Model;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +18,15 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> tasks;
-    private OverviewActivity activity;
 
-    // Constructor to receive the list of tasks
     public TaskAdapter(List<Task> tasks) {
         this.tasks = tasks;
 
-
         }
     public void updateTasks(List<Task> newTasks) {
-        tasks.clear(); // Clear the current list
-        tasks.addAll(newTasks); // Add the new filtered tasks
-        notifyDataSetChanged(); // Notify the adapter to refresh the RecyclerView
+        tasks.clear();
+        tasks.addAll(newTasks);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -73,7 +69,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     : "No Deadline");
             taskCheckBox.setChecked(task.getStatus() == 1);
 
-            // Checkbox listener
+
             taskCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 task.setStatus(isChecked ? 1 : 0);
                 if (itemView.getContext() instanceof OverviewActivity) {
@@ -81,7 +77,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 }
             });
 
-            // Edit button listener
+
             editButton.setOnClickListener(v -> {
                 if (itemView.getContext() instanceof OverviewActivity) {
                     ((OverviewActivity) itemView.getContext()).openEditTaskDialog(task, position);

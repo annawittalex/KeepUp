@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity {
                 taskAdapter = new TaskAdapter(taskList);
                 recyclerView.setAdapter(taskAdapter);
             } else {
-                taskList = (ArrayList<Task>) taskManager.getAllTasks(); // Default to TaskManager if bundle is empty
+                taskList = (ArrayList<Task>) taskManager.getAllTasks();
                 taskAdapter = new TaskAdapter(taskList);
                 recyclerView.setAdapter(taskAdapter);
             }
         } else {
-            taskList = (ArrayList<Task>) taskManager.getAllTasks(); // Default to TaskManager if no Bundle
+            taskList = (ArrayList<Task>) taskManager.getAllTasks();
             taskAdapter = new TaskAdapter(taskList);
             recyclerView.setAdapter(taskAdapter);
         }
@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         layout.setPadding(24, 24, 24, 24);
 
 
-        // Set minimum width and height for bigger dialog
         layout.setMinimumWidth(getResources().getDisplayMetrics().widthPixels - 64);
         layout.setMinimumHeight(getResources().getDisplayMetrics().heightPixels / 4);
 
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
-                 taskAdapter.notifyItemInserted(taskList.size() - 1);
+                taskAdapter.notifyItemInserted(taskList.size() - 1);
                 recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
             }
         });
