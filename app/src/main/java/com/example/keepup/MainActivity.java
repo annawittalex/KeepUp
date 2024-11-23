@@ -88,7 +88,28 @@ public class MainActivity extends AppCompatActivity {
             taskAdapter = new TaskAdapter(taskList);
             recyclerView.setAdapter(taskAdapter);
         }
+        sortTasksByDeadline();
     }
+
+    public void sortTasksByDeadline() {
+
+        if (taskList != null) {
+            taskList.sort((task1, task2) -> {
+                if (task1.getDeadline() == null && task2.getDeadline() == null) {
+                    return 0; // Both deadlines are null, considered equal
+                }
+                if (task1.getDeadline() == null) {
+                    return 1; // Place tasks with null deadlines at the end
+                }
+                if (task2.getDeadline() == null) {
+                    return -1; // Place tasks with null deadlines at the end
+                }
+                return task1.getDeadline().compareTo(task2.getDeadline()); // Compare deadlines
+            });
+            taskAdapter.notifyDataSetChanged();
+        }
+    }
+
 
     private void openAddTaskDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -145,9 +166,11 @@ public class MainActivity extends AppCompatActivity {
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
+                sortTasksByDeadline();
                 taskAdapter.notifyItemInserted(taskList.size() - 1);
                 recyclerView.scrollToPosition(taskAdapter.getItemCount() - 1);
             }
+
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
@@ -203,10 +226,9 @@ public class MainActivity extends AppCompatActivity {
             if (!updatedTaskName.isEmpty()) {
                 task.setTaskName(updatedTaskName);
                 task.setDeadline(updatedDeadline);
-                taskAdapter.notifyItemChanged(position);
+                sortTasksByDeadline();
+                taskAdapter.notifyDataSetChanged();
             }
-            taskList.get(position).setTaskName(taskNameInput.getText().toString());
-            taskList.get(position).setDeadline(updatedDeadline);
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());

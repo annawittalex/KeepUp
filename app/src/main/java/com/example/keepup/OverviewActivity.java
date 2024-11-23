@@ -145,6 +145,25 @@ public class OverviewActivity extends AppCompatActivity {
         });
     }
 
+    public void sortTasksByDeadline() {
+
+        if (taskList != null) {
+            taskList.sort((task1, task2) -> {
+                if (task1.getDeadline() == null && task2.getDeadline() == null) {
+                    return 0; // Both deadlines are null, considered equal
+                }
+                if (task1.getDeadline() == null) {
+                    return 1; // Place tasks with null deadlines at the end
+                }
+                if (task2.getDeadline() == null) {
+                    return -1; // Place tasks with null deadlines at the end
+                }
+                return task1.getDeadline().compareTo(task2.getDeadline()); // Compare deadlines
+            });
+            taskAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void openAddTaskDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add New Task");
@@ -203,6 +222,7 @@ public class OverviewActivity extends AppCompatActivity {
                 task.setTaskName(taskName);
                 task.setDeadline(deadline);
                 taskList.add(task);
+                sortTasksByDeadline();
 
                 ArrayList<Task> filteredTasks = (ArrayList<Task>) taskList.stream()
                         .filter(t -> {
@@ -294,6 +314,8 @@ public class OverviewActivity extends AppCompatActivity {
             if (!updatedTaskName.isEmpty()) {
                 task.setTaskName(updatedTaskName);
                 task.setDeadline(updatedDeadline);
+                sortTasksByDeadline();
+                taskAdapter.notifyDataSetChanged();
                 ArrayList<Task> filteredTasks = (ArrayList<Task>) taskList.stream()
                         .filter(t -> {
                             Date taskDeadline = t.getDeadline();
@@ -319,8 +341,6 @@ public class OverviewActivity extends AppCompatActivity {
                         .collect(Collectors.toList());
                 taskAdapter.updateTasks(filteredTasks);
             }
-            taskList.get(position).setTaskName(taskNameInput.getText().toString());
-            taskList.get(position).setDeadline(updatedDeadline);
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
